@@ -13,8 +13,8 @@
 
 
 #Parte Vicente
-
-
+pene = 0
+print(":V")
 
 
 
