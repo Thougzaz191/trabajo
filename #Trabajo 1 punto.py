@@ -98,7 +98,7 @@ def menu_maestros():
         elif opcion == "6":
             mantener(proveedores, "Proveedor")
         elif opcion == "7":
-            break
+            
         else:
             print("Opción inválida")
 
@@ -132,7 +132,7 @@ def mantener(diccionario, nombre):
                 estado = "Activo" if v["activo"] else "Bloqueado"
                 print(f"{k}: {v['descripcion']} ({estado})")
         elif opcion == "5":
-            break
+            
         else:
             print("Opción inválida")
 
