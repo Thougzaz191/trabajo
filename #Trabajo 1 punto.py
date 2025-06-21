@@ -16,9 +16,10 @@ costos = {}
 
 recetas = {}
 episodios = {}
-
+sw == 0
 def principal_menu():
     try:
+        global sw
         while sw == 1:
             print("MENU PRINCIPAL")
             print("1.Mantencion de maestros")
@@ -26,24 +27,24 @@ def principal_menu():
             print("3.Produccion")
             print("4.Ventas")
             print("5.Salir")
-            op = int(input("Ingresa una opcion"))
+            op = int(input("Ingresa una opcion "))
 
-            if op == "1":
+            if op == 1:
                 menu_maestros()
 
-            elif op == "2":
+            elif op == 2:
                 menu_inventario()
                 
-            elif op == "3":
+            elif op == 3:
                 menu_produccion()
 
-            elif op == "4":
+            elif op == 4:
                 menu_ventas()
 
-            elif op == "5":
+            elif op == 5:
                 sw = 0
             else:
-                print("Opcion invaldia")
+                print("Opcion invalida")
     except ValueError:
         print("Tiene que ingresar numeros, No letras ni otro signo")
 
@@ -143,11 +144,48 @@ def mantener(diccionario, nombre):
 
 
 #Parte Vicente
+def menu_inventario():
+    iv = 1
+    while iv == 1:
+        print("MENU INVENTARIO")
+        print("a. Pedidos a proveedores")
+        print("b. Recepción de Fármacos e Insumos clínicos")
+        print("c. Lista de stock de Fármacos e Insumos clínicos")
+        print("d. Reporte de Fármacos e Insumos clínicos a comprar")
+        print("e. Volver")
+        op = input("Ingresa una opcion: ")
 
-
-
-
-
+        if op == "a":
+            codigo = input("Ingrese el codigo del proveedor: ")
+            descripcion = input("Ingrese la descripcion del pedido: ")
+            cantidad = int(input("Ingrese la cantidad del pedido: "))
+            proveedores[codigo] = {"descripcion": descripcion, "cantidad": cantidad}
+            print("Pedido creado exitosamente")
+        elif op == "b":
+            codigo = input("Ingrese el codigo del fármaco o insumo: ")
+            descripcion = input("Ingrese la descripcion del fármaco o insumo: ")
+            cantidad = int(input("Ingrese la cantidad recibida: "))
+            if op == "fármaco":
+                stock_farmacos[codigo] = {"descripcion": descripcion, "cantidad": cantidad}
+            elif op == "insumo":
+                stock_insumos[codigo] = {"descripcion": descripcion, "cantidad": cantidad}
+            print("Recepción registrada exitosamente")    
+        elif op == "c":
+            print("Lista de stock de Fármacos e Insumos clínicos:")
+            print("Fármacos:")
+            for k, v in stock_farmacos.items():
+                print(f"{k}: {v['descripcion']} - Cantidad: {v['cantidad']}")
+            print("Insumos Clínicos:")
+            for k, v in stock_insumos.items():
+                print(f"{k}: {v['descripcion']} - Cantidad: {v['cantidad']}")    
+        elif op == "d":
+            print("Reporte de Fármacos e Insumos clínicos a comprar:")
+            print("Fármacos:")
+            for k, v in stock_farmacos.items():
+                if v[cantidad] < 10:
+                    print(f"{k}: {v['descripcion']} - Cantidad: {v['cantidad']}")
+        elif op == "e":
+            iv = 0
 
 
 
@@ -199,6 +237,7 @@ def menu_ventas():
                 for item, cantidad, costo in episodio[codigo]["items"]:
 
                     if item == "insumo":
-
+                        print("peo")
+principal_menu()
 
 
