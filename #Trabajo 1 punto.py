@@ -1,5 +1,22 @@
 #trabajo
 sw = 1
+pacientes = {}
+episodio = {}
+pacientes = {}
+farmacos = {}
+insumos = {}
+productos_terminados = {}
+prestaciones = {}
+proveedores = {}
+
+stock_farmacos = {}
+stock_insumos = {}
+stock_productos = {}
+costos = {}
+
+recetas = {}
+episodios = {}
+
 def principal_menu():
     try:
         while sw == 1:
@@ -87,3 +104,41 @@ def principal_menu():
 
 
 #Parte Gabriel
+def menu_ventas():
+    try:
+        while sw == 1:
+            print("Menu Ventas")
+            print("1.Crear episodio")
+            print("2.Asignar atencion")
+            print("3.Calcular precio de antencion")
+            print("4.Reporte de ventas")
+            print("5.Salir")
+            op = int(input("Ingresa una opcion: "))
+    except ValueError:
+        print("Tiene que ingresar numeros, No letras ni otro signo")
+
+        if op == "1":
+            codigo = input("Ingrese el codigo del episodio: ")
+            paciente = input("Ingrese el codigo del paciente: ")
+            fecha = input("Ingrese la fecha del episodio:")
+            episodio[codigo] = {"paciente": paciente, "fecha": fecha, "items": []}
+            print("Episodio creado exitosamente")
+        elif op == "2":
+            if codigo in episodio:
+                item = input("Ingres el item de atencion/insumo/farmaco/prestacion:")
+                costo = float(input("Ingrese el costo de la atencion: "))
+                episodio[codigo]["items"].append({"item": item, "costo": costo})
+                print("Atencion asignada exitosamente")
+            else:
+                print("Codigo no encontrado")
+        
+        elif op == "3":
+
+            if codigo in episodio:
+                total = 0
+                for item, cantidad, costo in episodio[codigo]["items"]:
+
+                    if item == "insumo":
+
+
+
