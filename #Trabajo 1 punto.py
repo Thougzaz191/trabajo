@@ -2,6 +2,21 @@
 sw = 1
 pacientes = {}
 episodio = {}
+pacientes = {}
+farmacos = {}
+insumos = {}
+productos_terminados = {}
+prestaciones = {}
+proveedores = {}
+
+stock_farmacos = {}
+stock_insumos = {}
+stock_productos = {}
+costos = {}
+
+recetas = {}
+episodios = {}
+
 def principal_menu():
     try:
         while sw == 1:
