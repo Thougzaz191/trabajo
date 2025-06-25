@@ -16,10 +16,10 @@ costos = {}
 
 recetas = {}
 episodios = {}
-sw == 0
+
 def principal_menu():
     try:
-        global sw
+        sw = 1
         while sw == 1:
             print("MENU PRINCIPAL")
             print("1.Mantencion de maestros")
@@ -138,9 +138,10 @@ def menu_inventario():
             codigo = input("Ingrese el codigo del fármaco o insumo: ")
             descripcion = input("Ingrese la descripcion del fármaco o insumo: ")
             cantidad = int(input("Ingrese la cantidad recibida: "))
-            if op == "fármaco":
+            tipo = input("¿Es fármaco o insumo?: ").lower()
+            if tipo == "fármaco":
                 stock_farmacos[codigo] = {"descripcion": descripcion, "cantidad": cantidad}
-            elif op == "insumo":
+            elif tipo == "insumo":
                 stock_insumos[codigo] = {"descripcion": descripcion, "cantidad": cantidad}
             print("Recepción registrada exitosamente")    
         elif op == "c":
@@ -155,7 +156,7 @@ def menu_inventario():
             print("Reporte de Fármacos e Insumos clínicos a comprar:")
             print("Fármacos:")
             for k, v in stock_farmacos.items():
-                if v[cantidad] < 10:
+                if v["cantidad"] < 10:
                     print(f"{k}: {v['descripcion']} - Cantidad: {v['cantidad']}")
         elif op == "e":
             iv = 0
@@ -210,6 +211,7 @@ def menu_produccion():
 #Parte Gabriel
 def menu_ventas():
     try:
+        sw = 1
         while sw == 1:
             print("Menu Ventas")
             print("1.Crear episodio")
@@ -218,32 +220,63 @@ def menu_ventas():
             print("4.Reporte de ventas")
             print("5.Salir")
             op = int(input("Ingresa una opcion: "))
+   
+
+        if op == "1":
+             codigo = input("Ingrese el código del episodio: ")
+             paciente = input("Ingrese el código del paciente: ")
+             fecha = input("Ingrese la fecha del episodio: ")
+             episodios[codigo] = {"paciente": paciente, "fecha": fecha, "items": []}
+             print("Episodio creado exitosamente")
+        elif op == "2":
+            codigo = input("Ingrese el código del episodio: ")
+            if codigo in episodios:
+                item = input("Ingrese el item de atención (producto/insumo/fármaco/prestación): ")
+                costo = float(input("Ingrese el costo del ítem: "))
+                cantidad = int(input("Ingrese la cantidad: "))
+                episodios[codigo]["items"].append({"item": item, "costo": costo, "cantidad": cantidad})
+                print("Atención asignada exitosamente")
+            else:
+                print("Código de episodio no encontrado")
+
+        elif op == "3":
+
+            if codigo in episodios:
+                total = 0
+                for item, cantidad, costo in episodios[codigo]["items"]:
+
+                    if item in productos_terminados:
+                        precio = costo * 0.60
+                    elif item in farmacos:
+                        precio = costo * 0.50
+                    elif item in insumos:
+                        precio = costo * 0.40
+                    elif item in prestaciones:
+                        precio = costo * 0.55
+                    else:
+                        precio = costo
+                    total += precio * cantidad
+                print(f"Total a pagar por atención: ${total:.2f}")
+        elif op == "4":
+            for codigo, data in episodios.items():
+                costo_total = sum(c * cant for _, cant, c in data["items"])
+                venta_total = 0
+                for item, cant, c in data["items"]:
+                    if item in productos_terminados:
+                        venta_total += c * 0.60 * cant
+                    elif item in farmacos:
+                        venta_total += c * 0.50 * cant
+                    elif item in insumos:
+                        venta_total += c * 0.40 * cant
+                    elif item in prestaciones:
+                        venta_total += c * 0.55 * cant
+                margen = venta_total - costo_total
+                print(f"Episodio: {codigo}, Paciente: {data['paciente']}, Costo: {costo_total:.2f}, Venta: {venta_total:.2f}, Margen: {margen:.2f}")
+        elif op == "5":
+            sw = 0
     except ValueError:
         print("Tiene que ingresar numeros, No letras ni otro signo")
 
-        if op == "1":
-            codigo = input("Ingrese el codigo del episodio: ")
-            paciente = input("Ingrese el codigo del paciente: ")
-            fecha = input("Ingrese la fecha del episodio:")
-            episodio[codigo] = {"paciente": paciente, "fecha": fecha, "items": []}
-            print("Episodio creado exitosamente")
-        elif op == "2":
-            if codigo in episodio:
-                item = input("Ingres el item de atencion/insumo/farmaco/prestacion:")
-                costo = float(input("Ingrese el costo de la atencion: "))
-                episodio[codigo]["items"].append({"item": item, "costo": costo})
-                print("Atencion asignada exitosamente")
-            else:
-                print("Codigo no encontrado")
-        
-        elif op == "3":
-
-            if codigo in episodio:
-                total = 0
-                for item, cantidad, costo in episodio[codigo]["items"]:
-
-                    if item == "insumo":
-                        print("peo")
 principal_menu()
 
 
