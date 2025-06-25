@@ -49,32 +49,10 @@ def principal_menu():
         print("Tiene que ingresar numeros, No letras ni otro signo")
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #Parte Benjamin
 def menu_maestros():
-    while True:
+    ok = False
+    while ok == False:
         print("\n--- MANTENCIÓN DE MAESTROS ---")
         print("1. Pacientes")
         print("2. Fármacos")
@@ -98,12 +76,13 @@ def menu_maestros():
         elif opcion == "6":
             mantener(proveedores, "Proveedor")
         elif opcion == "7":
-            
+            ok = True  
         else:
             print("Opción inválida")
 
 def mantener(diccionario, nombre):
-    while True:
+    ok = False
+    while ok == False:
         print(f"\n-- {nombre.upper()} --")
         print("1. Crear")
         print("2. Modificar")
@@ -132,18 +111,12 @@ def mantener(diccionario, nombre):
                 estado = "Activo" if v["activo"] else "Bloqueado"
                 print(f"{k}: {v['descripcion']} ({estado})")
         elif opcion == "5":
-            
+            ok = True
         else:
             print("Opción inválida")
 
 
-
-
-
-
-
-
-#Parte Vicente
+#Parte Vicentedown
 def menu_inventario():
     iv = 1
     while iv == 1:
@@ -188,16 +161,49 @@ def menu_inventario():
             iv = 0
 
 
-
-
 #Parte Valentine
 
+def menu_produccion():
+    ok = False
+    while ok == False:
+        print("\n--- PRODUCCIÓN ---")
+        print("1. Crear Receta de Producto Terminado")
+        print("2. Crear Orden de Producción")
+        print("3. Ver Stock de Productos Terminados")
+        print("4. Volver")
+        opcion = input("Seleccione opción: ")
 
-
-
-
-
-
+        if opcion == "1":
+            codigo = input("Código producto terminado: ")
+            composicion = {}
+            ok2 = False
+            while ok2 == False:
+                comp = input("Código de insumo o fármaco (vacío para terminar): ")
+                if comp == "":
+                    ok2 = True
+                cant = int(input("Cantidad a usar: "))
+                composicion[comp] = cant
+            recetas[codigo] = composicion
+        elif opcion == "2":
+            codigo = input("Producto terminado a fabricar: ")
+            cantidad = int(input("Cantidad a fabricar: "))
+            if codigo in recetas:
+                for insumo, cant in recetas[codigo].items():
+                    total = cant * cantidad
+                    if insumo in stock_farmacos and stock_farmacos[insumo] >= total:
+                        stock_farmacos[insumo] -= total
+                    elif insumo in stock_insumos and stock_insumos[insumo] >= total:
+                        stock_insumos[insumo] -= total
+                    else:
+                        print(f"No hay suficiente de {insumo}")
+                        return
+                stock_productos[codigo] = stock_productos.get(codigo, 0) + cantidad
+            else:
+                print("No existe receta")
+        elif opcion == "3":
+            print("Stock Productos Terminados:", stock_productos)
+        elif opcion == "4":
+            ok = True
 
 
 
